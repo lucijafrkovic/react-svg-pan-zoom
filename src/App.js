@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { UncontrolledReactSVGPanZoom } from "react-svg-pan-zoom";
+import {
+  ReactSvgPanZoomLoader,
+  SvgLoaderSelectElement,
+} from "react-svg-pan-zoom-loader";
 
 function App() {
+  const selectors = ["#AB_01_170A", "#AB_01_170B", "#AB_01_106", "#AB_01_166I"];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ReactSvgPanZoomLoader
+      src="floorPlanExample2.svg"
+      proxy={selectors.map((item) => {
+        return (
+          <SvgLoaderSelectElement
+            selector={item}
+            fill={"yellow"}
+            onClick={(e) => alert("selector selected " + item)}
+          />
+        );
+      })}
+      render={(content) => (
+        <UncontrolledReactSVGPanZoom
+          onClick={(ev) => {
+            console.log(ev.x, ev.y, ev.originalEvent.target);
+            console.log(ev.originalEvent.target);
+          }}
+          toolbarProps={{ position: "none" }}
+          miniatureProps={{ position: "none" }}
+          background="#ffffff"
+          width={"500"}
+          height={"500"}
+          tool="auto"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <svg width={1000} height={1000}>
+            {content}
+          </svg>
+        </UncontrolledReactSVGPanZoom>
+      )}
+    />
   );
 }
 
